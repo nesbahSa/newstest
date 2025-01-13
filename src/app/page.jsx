@@ -1,210 +1,298 @@
-import { BentoCard } from '@/components/bento-card'
 import { Button } from '@/components/button'
 import { Container } from '@/components/container'
 import { Footer } from '@/components/footer'
-import { Gradient } from '@/components/gradient'
-import { Keyboard } from '@/components/keyboard'
+import { GradientBackground } from '@/components/gradient'
 import { Link } from '@/components/link'
-import { LinkedAvatars } from '@/components/linked-avatars'
-import { LogoCloud } from '@/components/logo-cloud'
-import { LogoCluster } from '@/components/logo-cluster'
-import { LogoTimeline } from '@/components/logo-timeline'
-import { Map } from '@/components/map'
 import { Navbar } from '@/components/navbar'
-import { Screenshot } from '@/components/screenshot'
-import { Testimonials } from '@/components/testimonials'
-import { Heading, Subheading } from '@/components/text'
-import { ChevronRightIcon } from '@heroicons/react/16/solid'
+import { Heading, Lead, Subheading } from '@/components/text'
+import { image } from '@/sanity/image'
+import {
+    getCategories,
+    getFeaturedPosts,
+    getPosts,
+    getPostsCount,
+} from '@/sanity/queries'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import {
+    CheckIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon,
+    ChevronUpDownIcon,
+    RssIcon,
+} from '@heroicons/react/16/solid'
+import { clsx } from 'clsx'
+import dayjs from 'dayjs'
+import { notFound } from 'next/navigation'
 
 export const metadata = {
-  description:
-    'Radiant helps you sell more by revealing sensitive information about your customers.',
+    title: 'خبر',
+    description:
+        'Stay informed with product updates, company news, and insights on how to sell smarter at your company.',
 }
 
-function Hero() {
-  return (
-    <div className="relative">
-      <Gradient className="absolute inset-2 bottom-0 rounded-4xl ring-1 ring-inset ring-black/5" />
-      <Container className="relative">
-        <Navbar
-          banner={
-            <Link
-              href="/blog/radiant-raises-100m-series-a-from-tailwind-ventures"
-              className="flex items-center gap-1 rounded-full bg-fuchsia-950/35 px-3 py-0.5 text-sm/6 font-medium text-white data-[hover]:bg-fuchsia-950/30"
+const postsPerPage = 5
+
+async function FeaturedPosts() {
+    let featuredPosts = await getFeaturedPosts(3)
+
+    if (featuredPosts.length === 0) {
+        return
+    }
+
+    return (
+        <div className="mt-16 bg-gradient-to-t from-gray-100 pb-14">
+            <Container>
+                <div className="mt-24 grid grid-cols-1 gap-10 lg:grid-cols-3">
+                    {featuredPosts.map((post) => (
+                        <div
+                            key={post.slug}
+                            className="relative flex flex-col rounded-3xl bg-white p-2 shadow-md shadow-black/5 ring-1 ring-black/5 border-2 border-purple-800"
+                        >
+                            {post.mainImage && (
+                                <img
+                                    alt={post.mainImage.alt || ''}
+                                    src={image(post.mainImage).size(1170, 780).url()}
+                                    className="aspect-[3/2] w-full rounded-2xl object-cover"
+                                />
+                            )}
+                            <div className="flex flex-1 flex-col p-8">
+                                <div className="text-sm/5 text-gray-700">
+                                    {dayjs(post.publishedAt).format('dddd, MMMM D, YYYY')}
+                                </div>
+                                <div className="mt-2 text-base/7 font-medium">
+                                    <Link href={`/blog/${post.slug}`}>
+                                        <span className="absolute inset-0" />
+                                        {post.title}
+                                    </Link>
+                                </div>
+                                <div className="mt-2 flex-1 text-sm/6 text-gray-500">
+                                    {post.excerpt}
+                                </div>
+                                {post.author && (
+                                    <div className="mt-6 flex items-center gap-3">
+                                        {post.author.image && (
+                                            <img
+                                                alt=""
+                                                src={image(post.author.image).size(64, 64).url()}
+                                                className="aspect-square size-6 rounded-full object-cover"
+                                            />
+                                        )}
+                                        <div className="text-sm/5 text-gray-700">
+                                            {post.author.name}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </Container>
+        </div>
+    )
+}
+
+async function Categories({ selected }) {
+    let categories = await getCategories()
+
+    if (categories.length === 0) {
+        return
+    }
+
+    return (
+        <div className="flex flex-wrap items-center justify-between gap-2">
+            <Menu>
+                <MenuButton className="flex items-center justify-between gap-2 font-medium">
+                    {categories.find(({ slug }) => slug === selected)?.title ||
+                        'جميع الفئات'}
+                    <ChevronUpDownIcon className="size-4 fill-slate-900" />
+                </MenuButton>
+                <MenuItems
+                    anchor="bottom start"
+                    className="min-w-40 rounded-lg bg-white p-1 shadow-lg ring-1 ring-gray-200 [--anchor-gap:6px] [--anchor-offset:-4px] [--anchor-padding:10px]"
+                >
+                    <MenuItem>
+                        <Link
+                            href="/blog"
+                            data-selected={selected === undefined ? true : undefined}
+                            className="group grid grid-cols-[1rem,1fr] items-center gap-2 rounded-md px-2 py-1 data-[focus]:bg-gray-950/5"
+                        >
+                            <CheckIcon className="hidden size-4 group-data-[selected]:block" />
+                            <p className="col-start-2 text-sm/6">All categories</p>
+                        </Link>
+                    </MenuItem>
+                    {categories.map((category) => (
+                        <MenuItem key={category.slug}>
+                            <Link
+                                href={`/blog?category=${category.slug}`}
+                                data-selected={category.slug === selected ? true : undefined}
+                                className="group grid grid-cols-[16px,1fr] items-center gap-2 rounded-md px-2 py-1 data-[focus]:bg-gray-950/5"
+                            >
+                                <CheckIcon className="hidden size-4 group-data-[selected]:block" />
+                                <p className="col-start-2 text-sm/6">{category.title}</p>
+                            </Link>
+                        </MenuItem>
+                    ))}
+                </MenuItems>
+            </Menu>
+            {/*<Button variant="outline" href="/blog/feed.xml" className="gap-1">
+        <RssIcon className="size-4" />
+        RSS Feed
+      </Button>*/}
+        </div>
+    )
+}
+
+async function Posts({ page, category }) {
+    let posts = await getPosts(
+        (page - 1) * postsPerPage,
+        page * postsPerPage,
+        category,
+    )
+
+    if (posts.length === 0 && (page > 1 || category)) {
+        notFound()
+    }
+
+    if (posts.length === 0) {
+        return <p className="mt-6 text-gray-500">No posts found.</p>
+    }
+
+    return (
+        <div className="mt-6">
+            {posts.map((post) => (
+                <div
+                    key={post.slug}
+                    className="relative grid grid-cols-1 border-b border-b-gray-100 py-10 first:border-t first:border-t-purple-800 max-sm:gap-3 sm:grid-cols-3"
+                >
+                    <div>
+                        <div className="text-sm/5 max-sm:text-gray-700 sm:font-medium">
+                            {dayjs(post.publishedAt).format('dddd, MMMM D, YYYY')}
+                        </div>
+                        {post.author && (
+                            <div className="mt-2.5 flex items-center gap-3">
+                                {post.author.image && (
+                                    <img
+                                        alt=""
+                                        src={image(post.author.image).width(64).height(64).url()}
+                                        className="aspect-square size-6 rounded-full object-cover"
+                                    />
+                                )}
+                                <div className="text-sm/5 text-gray-700">
+                                    {post.author.name}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className="sm:col-span-2 sm:max-w-2xl">
+                        <h2 className="text-sm/5 font-medium">{post.title}</h2>
+                        <p className="mt-3 text-sm/6 text-gray-500">{post.excerpt}</p>
+                        <div className="mt-4">
+                            <Link
+                                href={`/blog/${post.slug}`}
+                                className="flex items-center gap-1 text-sm/5 font-medium"
+                            >
+                                <span className="absolute inset-0" />
+                                اقرأ المزيد
+                                <ChevronLeftIcon className="size-4 fill-gray-400" />
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+async function Pagination({ page, category }) {
+    function url(page) {
+        let params = new URLSearchParams()
+
+        if (category) params.set('category', category)
+        if (page > 1) params.set('page', page.toString())
+
+        return params.size !== 0 ? `/blog?${params.toString()}` : '/blog'
+    }
+
+    let totalPosts = await getPostsCount(category)
+    let hasPreviousPage = page - 1
+    let previousPageUrl = hasPreviousPage ? url(page - 1) : undefined
+    let hasNextPage = page * postsPerPage < totalPosts
+    let nextPageUrl = hasNextPage ? url(page + 1) : undefined
+    let pageCount = Math.ceil(totalPosts / postsPerPage)
+
+    if (pageCount < 2) {
+        return
+    }
+
+    return (
+        <div className="mt-6 flex items-center justify-between gap-2">
+
+
+            <Button
+                variant="outline"
+                href={previousPageUrl}
+                disabled={!previousPageUrl}
             >
-              Radiant raises $100M Series A from Tailwind Ventures
-              <ChevronRightIcon className="size-4" />
-            </Link>
-          }
-        />
-        <div className="pb-24 pt-16 sm:pb-32 sm:pt-24 md:pb-48 md:pt-32">
-          <h1 className="font-display text-balance text-6xl/[0.9] font-medium tracking-tight text-gray-950 sm:text-8xl/[0.8] md:text-9xl/[0.8]">
-            Close every deal.
-          </h1>
-          <p className="mt-8 max-w-lg text-xl/7 font-medium text-gray-950/75 sm:text-2xl/8">
-            Radiant helps you sell more by revealing sensitive information about
-            your customers.
-          </p>
-          <div className="mt-12 flex flex-col gap-x-6 gap-y-4 sm:flex-row">
-            <Button href="#">Get started</Button>
-            <Button variant="secondary" href="/pricing">
-              See pricing
+
+                <ChevronRightIcon className="size-4" />
+                سابق
+
             </Button>
-          </div>
-        </div>
-      </Container>
-    </div>
-  )
-}
-
-function FeatureSection() {
-  return (
-    <div className="overflow-hidden">
-      <Container className="pb-24">
-        <Heading as="h2" className="max-w-3xl">
-          A snapshot of your entire sales pipeline.
-        </Heading>
-        <Screenshot
-          width={1216}
-          height={768}
-          src="/screenshots/app.png"
-          className="mt-16 h-[36rem] sm:h-auto sm:w-[76rem]"
-        />
-      </Container>
-    </div>
-  )
-}
-
-function BentoSection() {
-  return (
-    <Container>
-      <Subheading>Sales</Subheading>
-      <Heading as="h3" className="mt-2 max-w-3xl">
-        Know more about your customers than they do.
-      </Heading>
-
-      <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6 lg:grid-rows-2">
-        <BentoCard
-          eyebrow="Insight"
-          title="Get perfect clarity"
-          description="Radiant uses social engineering to build a detailed financial picture of your leads. Know their budget, compensation package, social security number, and more."
-          graphic={
-            <div className="h-80 bg-[url(/screenshots/profile.png)] bg-[size:1000px_560px] bg-[left_-109px_top_-112px] bg-no-repeat" />
-          }
-          fade={['bottom']}
-          className="max-lg:rounded-t-4xl lg:col-span-3 lg:rounded-tl-4xl"
-        />
-        <BentoCard
-          eyebrow="Analysis"
-          title="Undercut your competitors"
-          description="With our advanced data mining, you’ll know which companies your leads are talking to and exactly how much they’re being charged."
-          graphic={
-            <div className="absolute inset-0 bg-[url(/screenshots/competitors.png)] bg-[size:1100px_650px] bg-[left_-38px_top_-73px] bg-no-repeat" />
-          }
-          fade={['bottom']}
-          className="lg:col-span-3 lg:rounded-tr-4xl"
-        />
-        <BentoCard
-          eyebrow="Speed"
-          title="Built for power users"
-          description="It’s never been faster to cold email your entire contact list using our streamlined keyboard shortcuts."
-          graphic={
-            <div className="flex size-full pl-10 pt-10">
-              <Keyboard highlighted={['LeftCommand', 'LeftShift', 'D']} />
+            <div className="flex gap-2 max-sm:hidden">
+                {Array.from({ length: pageCount }, (_, i) => (
+                    <Link
+                        key={i + 1}
+                        href={url(i + 1)}
+                        data-active={i + 1 === page ? true : undefined}
+                        className={clsx(
+                            'size-7 rounded-lg text-center text-sm/7 font-medium',
+                            'data-[hover]:bg-gray-100',
+                            'data-[active]:shadow data-[active]:ring-1 data-[active]:ring-black/10',
+                            'data-[active]:data-[hover]:bg-gray-50',
+                        )}
+                    >
+                        {i + 1}
+                    </Link>
+                ))}
             </div>
-          }
-          className="lg:col-span-2 lg:rounded-bl-4xl"
-        />
-        <BentoCard
-          eyebrow="Source"
-          title="Get the furthest reach"
-          description="Bypass those inconvenient privacy laws to source leads from the most unexpected places."
-          graphic={<LogoCluster />}
-          className="lg:col-span-2"
-        />
-        <BentoCard
-          eyebrow="Limitless"
-          title="Sell globally"
-          description="Radiant helps you sell in locations currently under international embargo."
-          graphic={<Map />}
-          className="max-lg:rounded-b-4xl lg:col-span-2 lg:rounded-br-4xl"
-        />
-      </div>
-    </Container>
-  )
+            <Button variant="outline" href={nextPageUrl} disabled={!nextPageUrl}>
+                التالي
+                <ChevronLeftIcon className="size-4" />
+            </Button>
+        </div>
+    )
 }
 
-function DarkBentoSection() {
-  return (
-    <div className="mx-2 mt-2 rounded-4xl bg-gray-900 py-32">
-      <Container>
-        <Subheading dark>Outreach</Subheading>
-        <Heading as="h3" dark className="mt-2 max-w-3xl">
-          Customer outreach has never been easier.
-        </Heading>
+export default async function Blog({ searchParams }) {
+    let page =
+        'page' in searchParams
+            ? typeof searchParams.page === 'string' && parseInt(searchParams.page) > 1
+                ? parseInt(searchParams.page)
+                : notFound()
+            : 1
 
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:mt-16 lg:grid-cols-6 lg:grid-rows-2">
-          <BentoCard
-            dark
-            eyebrow="Networking"
-            title="Sell at the speed of light"
-            description="Our RadiantAI chat assistants analyze the sentiment of your conversations in real time, ensuring you're always one step ahead."
-            graphic={
-              <div className="h-80 bg-[url(/screenshots/networking.png)] bg-[size:851px_344px] bg-no-repeat" />
-            }
-            fade={['top']}
-            className="max-lg:rounded-t-4xl lg:col-span-4 lg:rounded-tl-4xl"
-          />
-          <BentoCard
-            dark
-            eyebrow="Integrations"
-            title="Meet leads where they are"
-            description="With thousands of integrations, no one will be able to escape your cold outreach."
-            graphic={<LogoTimeline />}
-            // `!overflow-visible` is needed to work around a Chrome bug that disables the mask on the graphic.
-            className="z-10 !overflow-visible lg:col-span-2 lg:rounded-tr-4xl"
-          />
-          <BentoCard
-            dark
-            eyebrow="Meetings"
-            title="Smart call scheduling"
-            description="Automatically insert intro calls into your leads' calendars without their consent."
-            graphic={<LinkedAvatars />}
-            className="lg:col-span-2 lg:rounded-bl-4xl"
-          />
-          <BentoCard
-            dark
-            eyebrow="Engagement"
-            title="Become a thought leader"
-            description="RadiantAI automatically writes LinkedIn posts that relate current events to B2B sales, helping you build a reputation as a thought leader."
-            graphic={
-              <div className="h-80 bg-[url(/screenshots/engagement.png)] bg-[size:851px_344px] bg-no-repeat" />
-            }
-            fade={['top']}
-            className="max-lg:rounded-b-4xl lg:col-span-4 lg:rounded-br-4xl"
-          />
-        </div>
-      </Container>
-    </div>
-  )
-}
+    let category =
+        typeof searchParams.category === 'string'
+            ? searchParams.category
+            : undefined
 
-export default function Home() {
-  return (
-    <div className="overflow-hidden">
-      <Hero />
-      <main>
-        <Container className="mt-10">
-          <LogoCloud />
-        </Container>
-        <div className="bg-gradient-to-b from-white from-50% to-gray-100 py-32">
-          <FeatureSection />
-          <BentoSection />
-        </div>
-        <DarkBentoSection />
-      </main>
-      <Testimonials />
-      <Footer />
-    </div>
-  )
+    return (
+        <main className="overflow-hidden">
+            <GradientBackground />
+            <Container>
+                <Navbar />
+                <p className="mt-16 text-lg">خبر</p>
+                <p className="mt-2 mb-8 tracking-wide text-xl text-pretty font-medium text-purple-950 data-[dark]:text-white sm:text-5xl">
+                    كن مطلع على احدث الاخبار والتقارير مع نسبة
+                </p>
+            </Container>
+            {page === 1 && !category && <FeaturedPosts />}
+            <Container className="mt-16 pb-24">
+                <Categories selected={category} />
+                <Posts page={page} category={category} />
+                <Pagination page={page} category={category} />
+            </Container>
+            <Footer />
+        </main>
+    )
 }

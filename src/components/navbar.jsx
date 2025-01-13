@@ -1,63 +1,91 @@
 'use client'
 
 import {
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
+    Disclosure,
+    DisclosureButton,
+    DisclosurePanel,
 } from '@headlessui/react'
-import { Bars2Icon } from '@heroicons/react/24/solid'
+import { Bars3Icon } from '@heroicons/react/24/solid'
 import { motion } from 'framer-motion'
 import { Link } from './link'
 import { Logo } from './logo'
 import { PlusGrid, PlusGridItem, PlusGridRow } from './plus-grid'
+import {Button} from "@/components/button";
+
 
 const links = [
-  { href: '/pricing', label: 'Pricing' },
-  { href: '/company', label: 'Company' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/login', label: 'Login' },
+
+    // { href: '/', label: 'Home' },
+
+    { href: '/', label: 'الصفحة رئيسية' },
+
+    /*{ href: '/consultancy', label: 'Consultancy' },*/
+    /*{ href: '/retail', label: 'Retail' },*/
+
+    // { href: '/contact', label: 'Partner with Nesbah' },
+    { href: '/', label: 'شركائنا' },
+
+    { href: '/', label: 'الأسئلة الشائعة' },
+    { href: '/', label: 'الأسئلة الشائعة' },
+    { href: '/blog', label: 'خبر' },
+
+    // { href: '/login', label: 'Login' },
+    /*{ href: '/login', label: 'تسجيل الدخول' }*/,
 ]
 
 function DesktopNav() {
-  return (
-    <nav className="relative hidden lg:flex">
-      {links.map(({ href, label }) => (
-        <PlusGridItem key={href} className="relative flex">
-          <Link
-            href={href}
-            className="flex items-center px-4 py-3 text-base font-medium text-gray-950 bg-blend-multiply data-[hover]:bg-black/[2.5%]"
-          >
-            {label}
-          </Link>
-        </PlusGridItem>
-      ))}
-    </nav>
-  )
+    return (
+        <nav className="relative hidden lg:flex">
+            {links.map(({ href, label }) => (
+                <PlusGridItem key={href} className="relative flex">
+                    <Link
+                        href={href}
+                        className="flex items-center px-4 py-3 text-base font-medium text-gray-950 bg-blend-multiply data-[hover]:bg-gray-950/[2.5%] border-none outline-none"
+                    >
+                        {label}
+                    </Link>
+                </PlusGridItem>
+            ))}
+            <div className="flex items-center pr-2 gap-4">
+                <Button type="button" className="rounded-lg bg-purple-800 px-2 py-1 text-sm font-semibold text-white shadow-sm sm:hover:bg-purple-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    تسجيل الدخول
+                </Button>
+
+                <Button type="button" className="rounded-lg sm:border-2 sm:border-purple-800 bg-white px-2 py-1 text-sm font-semibold sm:text-black shadow-sm sm:hover:bg-purple-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    تسجيل الدخول
+                </Button>
+            </div>
+        </nav>
+    )
 }
 
 function MobileNavButton() {
-  return (
-    <DisclosureButton
-      className="flex size-12 items-center justify-center self-center rounded-lg data-[hover]:bg-black/5 lg:hidden"
-      aria-label="Open main menu"
-    >
-      <Bars2Icon className="size-6" />
-    </DisclosureButton>
-  )
+    return (
+        <DisclosureButton
+            className="flex size-12 items-center justify-center self-center rounded-lg data-[hover]:bg-black/5 lg:hidden"
+            aria-label="Open main menu"
+        >
+            <Bars3Icon className="size-6" />
+        </DisclosureButton>
+    )
 }
 
 function MobileNav() {
   return (
-    <DisclosurePanel className="lg:hidden">
-      <div className="flex flex-col gap-6 py-4">
-        {links.map(({ href, label }, linkIndex) => (
+
+
+
+    <DisclosurePanel className="lg:hidden bg-white/20 rounded-xl px-3">
+
+      <div className="flex flex-col gap-6 py-5">
+        {links.map(({href, label}, linkIndex) => (
           <motion.div
-            initial={{ opacity: 0, rotateX: -90 }}
-            animate={{ opacity: 1, rotateX: 0 }}
+            initial={{opacity: 0, rotateX: -90}}
+            animate={{opacity: 1, rotateX: 0}}
             transition={{
               duration: 0.15,
               ease: 'easeInOut',
-              rotateX: { duration: 0.3, delay: linkIndex * 0.1 },
+              rotateX: {duration: 0.3, delay: linkIndex * 0.1},
             }}
             key={href}
           >
@@ -67,6 +95,7 @@ function MobileNav() {
           </motion.div>
         ))}
       </div>
+
       <div className="absolute left-1/2 w-screen -translate-x-1/2">
         <div className="absolute inset-x-0 top-0 border-t border-black/5" />
         <div className="absolute inset-x-0 top-2 border-t border-black/5" />
@@ -75,7 +104,7 @@ function MobileNav() {
   )
 }
 
-export function Navbar({ banner }) {
+export function Navbar({banner}) {
   return (
     <Disclosure as="header" className="pt-12 sm:pt-16">
       <PlusGrid>
@@ -86,11 +115,7 @@ export function Navbar({ banner }) {
                 <Logo className="h-9" />
               </Link>
             </PlusGridItem>
-            {banner && (
-              <div className="relative hidden items-center py-3 lg:flex">
-                {banner}
-              </div>
-            )}
+            {banner && <div className="relative hidden items-center py-3 lg:flex">{banner}</div>}
           </div>
           <DesktopNav />
           <MobileNavButton />
