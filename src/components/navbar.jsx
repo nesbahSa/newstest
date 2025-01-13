@@ -15,22 +15,11 @@ import {Button} from "@/components/button";
 
 const links = [
 
-    // { href: '/', label: 'Home' },
-
-    { href: '/', label: 'الصفحة رئيسية' },
-
-    /*{ href: '/consultancy', label: 'Consultancy' },*/
-    /*{ href: '/retail', label: 'Retail' },*/
-
-    // { href: '/contact', label: 'Partner with Nesbah' },
-    { href: '/', label: 'شركائنا' },
-
-    { href: '/', label: 'الأسئلة الشائعة' },
-    { href: '/', label: 'الأسئلة الشائعة' },
+    { href: 'https://nesbah.com.sa/', label: 'الصفحة رئيسية' },
+    { href: 'https://nesbah.com.sa/contact', label: 'شركائنا' },
+    { href: 'https://nesbah.com.sa/FAQ', label: 'الأسئلة الشائعة' },
     { href: '/blog', label: 'خبر' },
-
-    // { href: '/login', label: 'Login' },
-    /*{ href: '/login', label: 'تسجيل الدخول' }*/,
+    { href: 'https://nesbah.com.sa/calculator', label: 'الحاسبة' },
 ]
 
 function DesktopNav() {
