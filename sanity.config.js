@@ -9,8 +9,8 @@ import { schema } from './src/sanity/schema'
 
 export default defineConfig({
   basePath: '/studio',
-  projectId,
-  dataset,
+  projectId: 'ap60nve6',
+  dataset: 'production',
   schema,
   plugins: [structureTool(), visionTool({ defaultApiVersion: apiVersion })],
 })
