@@ -9,6 +9,7 @@
     "lint": "next lint",
     "typegen": "sanity schema extract --path=src/sanity/extract.json && sanity typegen generate && rm ./src/sanity/extract.json"
   },
+
   "keywords": [
     "sanity"
   ],
