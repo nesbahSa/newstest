@@ -36,11 +36,11 @@ function DesktopNav() {
                 </PlusGridItem>
             ))}
             <div className="flex items-center pr-2 gap-4">
-                <Button type="button" className="rounded-lg bg-purple-800 px-2 py-1 text-sm font-semibold text-white shadow-sm sm:hover:bg-purple-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    تسجيل الدخول
+                <Button href="https://nesbah.com.sa/register" type="button" className="rounded-lg bg-purple-800 px-2 py-1 text-sm font-semibold text-white shadow-sm sm:hover:bg-purple-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    تسجيل
                 </Button>
 
-                <Button type="button" className="rounded-lg sm:border-2 sm:border-purple-800 bg-white px-2 py-1 text-sm font-semibold sm:text-black shadow-sm sm:hover:bg-purple-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <Button href="https://nesbah.com.sa/login" type="button" className="rounded-lg sm:border-2 sm:border-purple-800 bg-white px-2 py-1 text-sm font-semibold sm:text-black shadow-sm sm:hover:bg-purple-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     تسجيل الدخول
                 </Button>
             </div>
