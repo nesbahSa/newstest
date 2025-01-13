@@ -59,13 +59,21 @@ function MobileNavButton() {
     )
 }
 
+function MobileNavLoginButton() {
+  return (
+    <button
+      type="button"
+      href= "https://nesbah.com.sa/login"
+      className="rounded-md bg-purple-800 px-3.5 py-2 text-xs font-medium text-white shadow-sm hover:bg-purple-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+    >
+        تسجيل الدخول
+    </button>
+  )
+}
+
 function MobileNav() {
   return (
-
-
-
     <DisclosurePanel className="lg:hidden bg-white/20 rounded-xl px-3">
-
       <div className="flex flex-col gap-6 py-5">
         {links.map(({href, label}, linkIndex) => (
           <motion.div
@@ -107,7 +115,10 @@ export function Navbar({banner}) {
             {banner && <div className="relative hidden items-center py-3 lg:flex">{banner}</div>}
           </div>
           <DesktopNav />
-          <MobileNavButton />
+            <div className="flex items-center gap-4 lg:hidden">
+                <MobileNavLoginButton />
+                <MobileNavButton />
+            </div>
         </PlusGridRow>
       </PlusGrid>
       <MobileNav />
