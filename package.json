@@ -13,12 +13,21 @@
     "sanity"
   ],
   "dependencies": {
+    "@headlessui/react": "^2.2.0",
+    "@heroicons/react": "^2.2.0",
+    "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.69.0",
     "autoprefixer": "^10.4.20",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
+    "feed": "^4.2.2",
+    "framer-motion": "^11.17.0",
     "next": "^14.0.3",
+    "next-sanity": "^9.8.35",
     "postcss": "^8.4.49",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-use-measure": "^2.1.1",
     "sanity": "^3.69.0",
     "styled-components": "^6.1.8",
     "tailwindcss": "^3.4.17"
