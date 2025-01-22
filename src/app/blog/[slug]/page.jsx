@@ -11,6 +11,8 @@ import { ChevronLeftIcon } from '@heroicons/react/16/solid'
 import dayjs from 'dayjs'
 import { PortableText } from 'next-sanity'
 import { notFound } from 'next/navigation'
+import { franc } from 'franc';
+import langs from 'langs';
 
 export async function generateMetadata({ params }) {
   let post = await getPost(params.slug)
@@ -21,15 +23,22 @@ export async function generateMetadata({ params }) {
 export default async function BlogPost({ params }) {
   let post = (await getPost(params.slug)) || notFound()
 
+  // Detect language from the title
+  const detectedLangCode = franc(post.title || ''); // Use title for detection
+  const detectedLang = langs.where('3', detectedLangCode);
+
+  // Determine direction based on detected language
+  const direction = detectedLang?.name === 'Arabic' ? 'rtl' : 'ltr';
+
   return (
       <main className="overflow-hidden">
         <GradientBackground />
         <Container>
           <Navbar />
-          <Subheading className="mt-16">
+          <Subheading className="mt-16" dir={direction}>
             {dayjs(post.publishedAt).format('dddd, MMMM D, YYYY')}
           </Subheading>
-          <Heading as="h1" className="mt-4 text-purple-900">
+          <Heading as="h1" className="mt-4 text-purple-900" dir={direction}>
             {post.title}
           </Heading>
           <div className="mt-24 grid grid-cols-1 gap-8 pb-24 lg:grid-cols-[15rem_1fr] xl:grid-cols-[15rem_1fr_15rem]">
@@ -62,7 +71,7 @@ export default async function BlogPost({ params }) {
                   </div>
               )}
             </div>
-            <div className="text-gray-700">
+            <div dir={direction} className="text-gray-700">
               <div className="max-w-2xl xl:mx-auto">
                 {post.mainImage && (
                     <img
