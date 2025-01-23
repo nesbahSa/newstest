@@ -28,7 +28,12 @@ export default async function BlogPost({ params }) {
   const detectedLang = langs.where('3', detectedLangCode);
 
   // Determine direction based on detected language
-  const direction = detectedLang?.name === 'Arabic' ? 'rtl' : 'ltr';
+  const isArabic = detectedLang?.name === 'Arabic' || /[\u0600-\u06FF]/.test(post.title);
+  const direction = isArabic ? 'rtl' : 'ltr';
+
+  console.log('Detected language code:', detectedLangCode);
+  console.log('Detected language name:', detectedLang?.name);
+  console.log('Final direction:', direction);
 
   return (
       <main className="overflow-hidden">
