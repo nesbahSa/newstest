@@ -18,7 +18,7 @@ const links = [
     { href: 'https://nesbah.com.sa/', label: 'الصفحة رئيسية' },
     { href: 'https://nesbah.com.sa/contact', label: 'شركائنا' },
     { href: 'https://nesbah.com.sa/FAQ', label: 'الأسئلة الشائعة' },
-    { href: '/blog', label: 'خبر' },
+    { href: '/blog', label: 'الاخبار' },
     { href: 'https://nesbah.com.sa/calculator', label: 'الحاسبة' },
 ]
 
