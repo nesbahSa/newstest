@@ -281,7 +281,7 @@ export default async function Blog({ searchParams }) {
             <GradientBackground />
             <Container>
                 <Navbar />
-                <p className="mt-16 text-lg">خبر</p>
+                <p className="mt-16 text-lg">الاخبار</p>
                 <p className="mt-2 mb-8 tracking-wide text-xl text-pretty font-medium text-purple-950 data-[dark]:text-white sm:text-5xl">
                     كن مطلع على احدث الاخبار والتقارير مع نسبة
                 </p>
