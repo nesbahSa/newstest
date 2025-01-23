@@ -41,7 +41,7 @@ export default async function BlogPost({ params }) {
           <Heading as="h1" className="mt-4 text-purple-900" dir={direction}>
             {post.title}
           </Heading>
-          <div className="mt-24 grid grid-cols-1 gap-8 pb-24 lg:grid-cols-[15rem_1fr] xl:grid-cols-[15rem_1fr_15rem]">
+          <div dir={direction} className="mt-24 grid grid-cols-1 gap-8 pb-24 lg:grid-cols-[15rem_1fr] xl:grid-cols-[15rem_1fr_15rem]">
             <div className="flex flex-wrap items-center gap-4 max-lg:justify-between lg:flex-col lg:items-start">
               {post.author && (
                   <div className="flex items-center gap-3">
@@ -186,15 +186,14 @@ export default async function BlogPost({ params }) {
                 )}
                 <div className="mt-10">
                   <Button variant="outline" href="/blog">
-                    العودة إلى الاخبار
-                    <ChevronLeftIcon className="size-4" />
+                    {direction === 'rtl' ? 'العودة إلى الاخبار' : 'Back to News'}
                   </Button>
                 </div>
               </div>
             </div>
           </div>
         </Container>
-        <Footer />
+        <Footer/>
       </main>
   )
 }
