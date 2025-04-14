@@ -5,3 +5,7 @@
 html {
   direction: rtl;
 }
+
+.ltr {
+  direction: ltr;
+}

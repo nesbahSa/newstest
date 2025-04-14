@@ -1,6 +1,6 @@
 import { Button } from '@/components/button'
 import { Container } from '@/components/container'
-import { Footer } from '@/components/footer'
+import { NewFooter } from '@/components/NewFooter'
 import { GradientBackground } from '@/components/gradient'
 import { Link } from '@/components/link'
 import { Navbar } from '@/components/navbar'
@@ -278,7 +278,6 @@ export default async function Blog({ searchParams }) {
 
     return (
         <main className="overflow-hidden">
-            <GradientBackground />
             <Container>
                 <Navbar />
                 <p className="mt-16 text-lg">الاخبار</p>
@@ -292,7 +291,7 @@ export default async function Blog({ searchParams }) {
                 <Posts page={page} category={category} />
                 <Pagination page={page} category={category} />
             </Container>
-            <Footer />
+            <NewFooter />
         </main>
     )
 }
