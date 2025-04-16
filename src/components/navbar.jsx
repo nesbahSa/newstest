@@ -15,10 +15,10 @@ import {Button} from "@/components/button";
 
 const links = [
 
-    { href: 'https://nesbah-638895547402.me-central2.run.app/', label: 'الصفحة رئيسية' },
-    { href: 'https://nesbah-638895547402.me-central2.run.app/contact', label: 'شركائنا' },
-    { href: 'https://nesbah-638895547402.me-central2.run.app/about', label: 'من نحن' },
-    { href: 'https://nesbah-638895547402.me-central2.run.app/calculator', label: 'الحاسبة' },
+    { href: 'https://nesbah.com.sa/', label: 'الصفحة رئيسية' },
+    { href: 'https://nesbah.com.sa/contact', label: 'شركائنا' },
+    { href: 'https://nesbah.com.sa/about', label: 'من نحن' },
+    { href: 'https://nesbah.com.sa/calculator', label: 'الحاسبة' },
     { href: './', label: 'الاخبار' },
 ]
 
@@ -37,7 +37,7 @@ function DesktopNav() {
             ))}
             <div className="flex items-center pr-2 gap-4">
 
-                <Button href="https://nesbah-638895547402.me-central2.run.app/login" type="button" className="rounded-full sm:border-2 sm:border-purple-800 !bg-transparent px-2 py-1 text-sm font-semibold sm:text-black shadow-sm sm:hover:bg-purple-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <Button href="https://nesbah.com.sa/login" type="button" className="rounded-full sm:border-2 sm:border-purple-800 !bg-transparent px-2 py-1 text-sm font-semibold sm:text-black shadow-sm sm:hover:bg-purple-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     تسجيل
                 </Button>
             </div>
